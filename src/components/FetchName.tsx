@@ -3,20 +3,18 @@ import { TypedDocumentNode, gql } from "@apollo/client";
 
 // Corrected Type: patients is an array
 export const getLastName: TypedDocumentNode<{
-  patients: { id: number; first_name: string }[];
+  patients: { id: number; first_name: string, last_name: string }[];
 }> = gql`
   query {
     patients {
       id
       first_name
+      last_name
     }
   }
 `;
 
-/**
- * Example Server Component that uses Apollo Client for data fetching.
- */
-export async function LatestMissionName() {
+export async function FetchName() {
   const { data } = await getClient().query({
     query: getLastName,
   });
@@ -26,10 +24,10 @@ export async function LatestMissionName() {
 
   return (
     <div>
-      <h2>Last Names</h2>
+      <h2>Names</h2>
       <ul>
         {data.patients.map((patient) => (
-          <li key={patient.id}>{patient.first_name}</li>
+          <li key={patient.id}>{patient.first_name} - {patient.last_name}</li>
         ))}
       </ul>
     </div>

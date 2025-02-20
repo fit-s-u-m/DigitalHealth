@@ -1,13 +1,11 @@
-import { LatestMissionName } from "@/components/LatestMissionName";
+import { FetchName } from "@/components/FetchName";
 
 export default async function Home() {
   return (
     <>
-      <article>
-        <h2>
-          Latest mission: <LatestMissionName />
-        </h2>
-      </article>
+      <h2>
+        <FetchName />
+      </h2>
     </>
   );
 }
