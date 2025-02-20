@@ -1,14 +1,14 @@
 import { getClient } from "@/lib/ApolloClient";
 import { TypedDocumentNode, gql } from "@apollo/client";
 
-export const getLatestMissionName: TypedDocumentNode<{
-  launchLatest: {
-    mission_name: string;
-  };
+// Corrected Type: patients is an array
+export const getLastName: TypedDocumentNode<{
+  patients: { id: number; first_name: string }[];
 }> = gql`
   query {
-    launchLatest {
-      mission_name
+    patients {
+      id
+      first_name
     }
   }
 `;
@@ -18,8 +18,21 @@ export const getLatestMissionName: TypedDocumentNode<{
  */
 export async function LatestMissionName() {
   const { data } = await getClient().query({
-    query: getLatestMissionName,
+    query: getLastName,
   });
 
-  return <div>{data.launchLatest.mission_name}</div>;
+  // Check if data exists
+  if (!data || !data.patients) return <div>No data available</div>;
+
+  return (
+    <div>
+      <h2>Last Names</h2>
+      <ul>
+        {data.patients.map((patient) => (
+          <li key={patient.id}>{patient.first_name}</li>
+        ))}
+      </ul>
+    </div>
+  );
 }
+
