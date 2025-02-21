@@ -40,8 +40,8 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
             className="w-24 h-24 rounded-full border-4 border-white mx-8 mt-6 p-8 shadow-lg "
           />
           <div className="textContainer">
-          <h1 className="text-3xl font-semibold mt-2">{name}</h1>
-          <p className=" mt-2">{id}</p>
+          <h1 className="text-3xl font-semibold mb-0 mt-2">{name}</h1>
+          <p className=" text-gray-300 text-sm mb-4">#00000000000{id}</p>
           <p className="text-lg">Age:{age}</p>
           <p className="text-lg">Phone no: {phoneno}</p>
           <p className="text-lg">Blood Type: {dateOfBirth}</p>
