@@ -27,7 +27,7 @@ export default function LoginForm() {
 				onClick={() => router.push("/")}
 				className="absolute top-6 left-6 bg-[#2CAA83] text-white px-6 py-6 rounded-full shadow-md hover:bg-green-800 transition duration-300"
 			>
-				<BackButton route="/" />
+				<BackButton route="./" />
 			</motion.button>
 
 			{/* Login Form */}

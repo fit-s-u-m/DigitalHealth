@@ -33,7 +33,7 @@ export default function Hero() {
 						Excepteur sint occaecat cupidatat non proident sunt officia.
 					</p>
 					<Button variant="default" className="mt-6 bg-[#2CAA83] hover:bg-[#239971]">
-						More →
+						More 
 					</Button>
 				</motion.div>
 
@@ -46,7 +46,7 @@ export default function Hero() {
 				>
 					{/* Overlapping Image - Moves with the Circle */}
 					<Image
-						src="/doctor.png" // Change this to your actual image
+						src="/assets/doc1.png" // Change this to your actual image
 						alt="Doctor"
 						width={300}
 						height={300}
