@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
+import ExtractText from "@/lib/extractText"
 const formSchema = z.object({
   firstName: z.string().min(2, {
     message: "firstName must be at least 2 characters.",
@@ -71,15 +72,20 @@ export default function Registor() {
     console.log(value)
   }
   const [file, setFile] = useState<File | null>(null)
+  const [data, setData] = useState<String>()
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files ? event.target.files[0] : null
     setFile(selectedFile)
   }
-  const handleSubmitFile = () => {
+  const handleSubmitFile = async () => {
     if (file) {
       console.log("File selected:", file)
+      const responce = await ExtractText(file)
+      console.log(responce)
+      // setData(responce)
       // Handle file upload or further processing here
+      //
     } else {
       console.log("No file selected")
     }

@@ -13,7 +13,7 @@ function makeClient() {
 	const httpLink = new HttpLink({
 		uri: "https://digital-health.hasura.app/v1/graphql",
 		headers: {
-			"x-hasura-admin-secret": process.env.HASURA_SECRET as string,
+			"x-hasura-admin-secret": process.env.NEXT_PUBLIC_HASURA_SECRET as string,
 		},
 	});
 

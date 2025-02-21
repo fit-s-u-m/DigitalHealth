@@ -41,7 +41,7 @@ export default function Hero() {
 				<motion.button
 					whileHover={{ scale: 1.05 }}
 					whileTap={{ scale: 0.95 }}
-					className="mt-6 px-6 py-3 bg-[#2CAA83] text-white rounded-full hover:bg-green-600 transition flex items-center gap-2"
+					className="mt-6 px-6 py-3 bg-[#000] text-white rounded-full hover:bg-green-600 transition flex items-center gap-2"
 				>
 					More <span>→</span>
 				</motion.button>
