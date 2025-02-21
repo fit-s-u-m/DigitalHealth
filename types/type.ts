@@ -12,3 +12,27 @@ export type PatientType = {
 export type PatientResponceType = {
   patients: PatientType[]
 }
+export type geminiResponceType = {
+  personalInformation:{
+    patientFullName: string
+    dateOfBirth: string
+    gender: string
+    address: {
+      city:string
+      woredaSubcity: string
+      kebele: string
+      houseNumber: string
+    }
+    phoneNumber:string
+    emergencyContact: string,
+    weight: string,
+    height: string,
+  }
+  medicalInformation: {
+    hospitalName: string
+    doctorName: string,
+    registrationDate: string,
+    illness: string,
+    medicalHistory: string
+  },
+}

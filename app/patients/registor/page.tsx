@@ -18,6 +18,7 @@ import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import ExtractText from "@/lib/extractText"
+import { geminiResponceType } from "@/types/type"
 const formSchema = z.object({
   firstName: z.string().min(2, {
     message: "firstName must be at least 2 characters.",
@@ -40,6 +41,7 @@ const formSchema = z.object({
   sex: z.string().nonempty({
     message: "sex of the patient can't be null ",
   }),
+  birthDate:z.date(),
   phoneNumber: z.string()
     .min(10, {
       message: "Phone number must be at least 10 digits long",
@@ -72,7 +74,7 @@ export default function Registor() {
     console.log(value)
   }
   const [file, setFile] = useState<File | null>(null)
-  const [data, setData] = useState<String>()
+  const [data, setData] = useState<geminiResponceType>()
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files ? event.target.files[0] : null
@@ -81,11 +83,12 @@ export default function Registor() {
   const handleSubmitFile = async () => {
     if (file) {
       console.log("File selected:", file)
-      const responce = await ExtractText(file)
+      const responce:geminiResponceType = await ExtractText(file)
       console.log(responce)
-      // setData(responce)
-      // Handle file upload or further processing here
-      //
+      if(responce.personalInformation.patientFullName){
+        setFullName(responce.personalInformation.patientFullName)
+      }
+      setData(responce)
     } else {
       console.log("No file selected")
     }
@@ -103,6 +106,30 @@ export default function Registor() {
 
         <div className="flex justify-center items-center h-full">
           <div className="grid max-w-sm items-center justify-center gap-2 bg-white p-4 rounded-lg shadow-md">
+             {
+             data ? (
+                Object.keys(data.personalInformation).map((key, index) => {
+                  const value = data.personalInformation[key];
+
+                  return (
+                    <div key={index}>
+                      <strong>{key}</strong> ---- 
+                      {value && typeof value === 'object' ? (
+                        <ul>
+                          {Object.entries(value).map(([subKey, subValue], subIndex) => (
+                            <li key={subIndex}>
+                              <strong>{subKey}</strong>: {subValue ?? 'N/A'}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        value ?? 'N/A'
+                      )}
+                    </div>
+                  );
+                })
+                ) : null
+              }
             <Label htmlFor="picture">Picture</Label>
             <Input id="picture" type="file" onChange={handleFileChange} />
             <Button onClick={handleSubmitFile}>submit </Button>
@@ -110,7 +137,7 @@ export default function Registor() {
         </div>
       </div>
       <div className="w-1/2 p-8 bg-white shadow-lg rounded-lg ml-auto">
-        <h2 className="text-2xl font-bold mb-6">Register</h2>
+        <h2 className="text-2xl font-bold mb-2">Register</h2>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
@@ -221,7 +248,7 @@ export default function Registor() {
                 <FormItem>
                   <FormLabel>Phone Number</FormLabel>
                   <FormControl>
-                    <Input type="tel" placeholder="phone number" {...field} />
+                    <Input type="date" placeholder="phone number" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
