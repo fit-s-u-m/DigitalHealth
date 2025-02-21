@@ -1,12 +1,13 @@
-"use client"
+"use client";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 interface ProfilePageProps {
   name: string;
   age: string;
-  bio: string;
-  email: string;
+  phoneno: string;
+  id:string;
+  bloodtype: string;
   profilePicture: string;
   location: string;
   dateOfBirth: string;
@@ -17,90 +18,71 @@ interface ProfilePageProps {
 const ProfilePage: React.FC<ProfilePageProps> = ({
   name,
   age,
-  bio,
-  email,
+  phoneno,
+  bloodtype,
+  id,
   profilePicture,
   location,
   dateOfBirth,
   gender,
   website,
 }) => {
-  const [activeTab, setActiveTab] = useState<'medical' | 'clinical' | 'affiliations'>('medical');
+  const [activeTab, setActiveTab] = useState<"medical" | "clinical" | "affiliations">("medical");
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <div className="max-w-4xl mx-auto bg-white shadow-lg overflow-hidden rounded-lg">
+    <div className="m-4 flex items-center justify-center bg-white">
+      <div className="max-w w-full bg-[#2CAA83] shadow-xl rounded-xl overflow-hidden border border-gray-300">
         {/* Profile Header */}
-        <div className="bg-gray-300 p-6">
-          <div className="flex items-center space-x-6">
-            <img
-              src={profilePicture}
-              alt={`${name}'s profile`}
-              className="w-24 h-24 rounded-full border-4 border-white"
-            />
-            <div>
-              <h1 className="text-3xl font-bold text-white">{name}</h1>
-              <p className="text-gray-200">Age: {age}</p>
-              <p className="text-gray-200">Date of Birth: {dateOfBirth}</p>
-              <p className="text-gray-200">Gender: {gender}</p>
-            </div>
+        <div className="relative flex bg-[#228C6A] p-6 text-center text-white">
+          <img
+            src={profilePicture}
+            alt={`${name}'s profile`}
+            className="w-24 h-24 rounded-full border-4 border-white mx-8 mt-6 p-8 shadow-lg "
+          />
+          <div className="textContainer">
+          <h1 className="text-3xl font-semibold mt-2">{name}</h1>
+          <p className=" mt-2">{id}</p>
+          <p className="text-lg">Age:{age}</p>
+          <p className="text-lg">Phone no: {phoneno}</p>
+          <p className="text-lg">Blood Type: {dateOfBirth}</p>
+          
           </div>
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-gray-200">
-          <button
-            onClick={() => setActiveTab('medical')}
-            className={`flex-1 py-3 text-center font-semibold ${
-              activeTab === 'medical'
-                ? 'text-blue-600 border-b-2 border-blue-600'
-                : 'text-gray-500 hover:text-gray-700'
-            }`}
-          >
-            Medical Record
-          </button>
-          <button
-            onClick={() => setActiveTab('clinical')}
-            className={`flex-1 py-3 text-center font-semibold ${
-              activeTab === 'clinical'
-                ? 'text-blue-600 border-b-2 border-blue-600'
-                : 'text-gray-500 hover:text-gray-700'
-            }`}
-          >
-            Clinical History
-          </button>
-          <button
-            onClick={() => setActiveTab('affiliations')}
-            className={`flex-1 py-3 text-center font-semibold ${
-              activeTab === 'affiliations'
-                ? 'text-blue-600 border-b-2 border-blue-600'
-                : 'text-gray-500 hover:text-gray-700'
-            }`}
-          >
-            Affiliations
-          </button>
+        <div className="flex bg-white border-b border-gray-300">
+          {["medical", "clinical", "affiliations"].map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab as any)}
+              className={`flex-1 py-3 text-center text-lg font-medium transition-all duration-300 
+                ${activeTab === tab ? "text-[#2CAA83] border-b-2 border-[#2CAA83]" : "text-gray-600 hover:text-gray-800"}`}
+            >
+              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            </button>
+          ))}
         </div>
 
         {/* Tab Content */}
-        <div className="p-6">
-          {activeTab === 'medical' && (
+        <div className="p-6 bg-white text-black">
+          {activeTab === "medical" && (
             <div>
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">Medical Record</h2>
-              <p className="text-gray-600">Placeholder for medical record content.</p>
+              <h2 className="text-xl font-semibold text-[#2CAA83] mb-4">🩺 Medical Record</h2>
+              <p className="text-gray-700">Detailed medical record information will appear here.</p>
             </div>
           )}
 
-          {activeTab === 'clinical' && (
+          {activeTab === "clinical" && (
             <div>
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">Clinical History</h2>
-              <p className="text-gray-600">Placeholder for clinical history content.</p>
+              <h2 className="text-xl font-semibold text-[#2CAA83] mb-4">📝 Clinical History</h2>
+              <p className="text-gray-700">Clinical history details and past records.</p>
             </div>
           )}
 
-          {activeTab === 'affiliations' && (
+          {activeTab === "affiliations" && (
             <div>
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">Affiliations</h2>
-              <p className="text-gray-600">Placeholder for affiliations content.</p>
+              <h2 className="text-xl font-semibold text-[#2CAA83] mb-4">🏛️ Affiliations</h2>
+              <p className="text-gray-700">Professional affiliations and memberships.</p>
             </div>
           )}
         </div>
