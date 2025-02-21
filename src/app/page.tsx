@@ -1,3 +1,16 @@
+"use client";
+import NavBar from "../components/Navbar";
+// import Hero from "@/components/Hero";
+// import Features from "@/components/Features";
+// import Footer from "@/components/Footer";
+
 export default function Home() {
-  return <div className="underline text-3xl font-bold text-blue-800">Button</div>;
+  return (
+    <div className="min-h-screen bg-white">
+      <NavBar />
+      {/* <Hero />
+      <Features />
+      <Footer /> */}
+    </div>
+  );
 }
