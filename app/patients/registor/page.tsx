@@ -14,11 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { useState } from "react"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
-import ExtractText from "@/lib/extractText"
-import { geminiResponceType } from "@/types/type"
 const formSchema = z.object({
   firstName: z.string().min(2, {
     message: "firstName must be at least 2 characters.",
@@ -55,6 +51,9 @@ const formSchema = z.object({
 
 })
 
+const onSubmit = (value: any) => {
+    console.log(value)
+ }
 export default function Registor() {
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -69,73 +68,8 @@ export default function Registor() {
       phoneNumber: ""
     }
   })
-  const onSubmit = (value: any) => {
-    setFullName(`${value?.firstName}  ${value?.middleName}  ${value?.lastName}`)
-    console.log(value)
-  }
-  const [file, setFile] = useState<File | null>(null)
-  const [data, setData] = useState<geminiResponceType>()
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files ? event.target.files[0] : null
-    setFile(selectedFile)
-  }
-  const handleSubmitFile = async () => {
-    if (file) {
-      console.log("File selected:", file)
-      const responce:geminiResponceType = await ExtractText(file)
-      console.log(responce)
-      if(responce.personalInformation.patientFullName){
-        setFullName(responce.personalInformation.patientFullName)
-      }
-      setData(responce)
-    } else {
-      console.log("No file selected")
-    }
-  }
-
-
-  const [fullName, setFullName] = useState<string>("")
   return (
     <div className="h-screen flex items-center bg-gray-100">
-      <div>
-        <div className="absolute top-4 left-4 bg-white px-4 py-2 shadow-md rounded-md">
-          <h2 className="text-lg font-semibold">Patient name:</h2>
-          <p className="text-gray-700">{fullName || "No name provided"}</p>
-        </div>
-
-        <div className="flex justify-center items-center h-full">
-          <div className="grid max-w-sm items-center justify-center gap-2 bg-white p-4 rounded-lg shadow-md">
-             {
-             data ? (
-                Object.keys(data.personalInformation).map((key, index) => {
-                  const value = data.personalInformation[key];
-
-                  return (
-                    <div key={index}>
-                      <strong>{key}</strong> ---- 
-                      {value && typeof value === 'object' ? (
-                        <ul>
-                          {Object.entries(value).map(([subKey, subValue], subIndex) => (
-                            <li key={subIndex}>
-                              <strong>{subKey}</strong>: {subValue ?? 'N/A'}
-                            </li>
-                          ))}
-                        </ul>
-                      ) : (
-                        value ?? 'N/A'
-                      )}
-                    </div>
-                  );
-                })
-                ) : null
-              }
-            <Label htmlFor="picture">Picture</Label>
-            <Input id="picture" type="file" onChange={handleFileChange} />
-            <Button onClick={handleSubmitFile}>submit </Button>
-          </div>
-        </div>
-      </div>
       <div className="w-1/2 p-8 bg-white shadow-lg rounded-lg ml-auto">
         <h2 className="text-2xl font-bold mb-2">Register</h2>
         <Form {...form}>
