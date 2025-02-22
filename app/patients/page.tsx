@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Eye, Pencil } from "lucide-react"; // Icons
 import PatientHeader from "@/components/patientheader";
 import { motion } from "framer-motion";
+import BackButton from "@/components/backButton";
 // Sample Static Data (Replace with Hasura Query later)
 const patients = [
 	{ id: "P001", name: "John Doe", age: 45, contact: "123-456-7890" },
@@ -48,7 +49,7 @@ const columns: ColumnDef<(typeof patients)[number]>[] = [
 					<Button
 						variant="ghost"
 						size="icon"
-						onClick={() => router.push(`/patients/${row.original.id}`)}
+						onClick={() => router.push("/profile")}
 					>
 						<Eye className="w-5 h-5 text-blue-600 hover:text-blue-800" />
 					</Button>
@@ -57,7 +58,7 @@ const columns: ColumnDef<(typeof patients)[number]>[] = [
 					<Button
 						variant="ghost"
 						size="icon"
-						onClick={() => alert(`Editing ${row.original.name}`)}
+						onClick={() => router.push(`/edit`)}
 					>
 						<Pencil className="w-5 h-5 text-green-600 hover:text-green-800" />
 					</Button>
@@ -71,7 +72,7 @@ export default function Patients() {
 	const router = useRouter();
 
 	return (
-		<div className="relative min-h-screen container mx-auto pt-32">
+		<div className="relative min-h-screen container mx-auto pt-4">
 			<motion.div
 				initial={{ x: -100, opacity: 0 }}
 				animate={{ x: 0, opacity: 0.2 }}

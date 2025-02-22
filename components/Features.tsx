@@ -27,7 +27,7 @@ export default function Features() {
 			title: "Healthcare Analytics & Reporting",
 			description:
 				"Utilize AI-driven data analytics for government and organizations to make informed healthcare decisions.",
-			link: "/analytics", // Route for Analytics
+			link: "/dashboard", // Route for Analytics
 			buttonlabel:"View"
 		},
 	];
