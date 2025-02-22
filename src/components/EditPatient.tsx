@@ -41,6 +41,11 @@ const EditPatient = () => {
     }
   };
 
+  // Function to handle date input change and trigger alert
+  const handleDateChange = (e) => {
+    alert('Date selected');
+  };
+
   return (
     <div className="flex h-screen bg-gray-50">
       {/* Sidebar */}
@@ -75,6 +80,12 @@ const EditPatient = () => {
                     </option>
                   ))}
                 </select>
+              ) : field.type === "date" ? (
+                <input
+                  type={field.type}
+                  className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#228C6A]"
+                  onChange={handleDateChange}  // Call handleDateChange when a date is selected
+                />
               ) : (
                 <input
                   type={field.type}
