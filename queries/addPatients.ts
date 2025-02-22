@@ -8,7 +8,11 @@ export const ADD_PATIENT = gql`
     $national_id: String!, 
     $age: Int!, 
     $emergency_contact: String, 
-    $address: String
+    $address: String,
+    $sex: String,
+    $phone_number: String,
+    $weight: Int,
+    $height: int
   ) {
     insert_patients_one(object: {
       first_name: $first_name, 
@@ -17,9 +21,13 @@ export const ADD_PATIENT = gql`
       national_id: $national_id, 
       age: $age, 
       emergency_contact: $emergency_contact, 
-      address: $address
+      address: $address,
+      sex: $sex,
+      phone_number: $phone_number,
+      weight: $weight,
+      height: $height
     }) {
-      record_id
+      national_id
       first_name
       last_name
     }

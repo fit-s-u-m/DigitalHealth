@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import CreateModal from "@/components/modal"
 import useModal from "../hook/useModal"
+import {Register} from "@/components/registor"
 
 
 export default function Digitalize(){
@@ -20,41 +21,23 @@ export default function Digitalize(){
     closeModal: closeCreateModal,
   } = useModal();
 
-  const columns = (): { header: string; accessor: string }[] => {
-    const patient = [
-        "Patient full name",
-        "Date of birth",
-        "Sex",
-        "Address",
-        "Phone number",
-        "Emergency contact",
-        "Weight",
-        "Height",
-    ];
-    const medicalInfo = [
-        "Hospital name",
-        "Doctors name",
-        "Registration Date",
-        "illness",
-        "medical history"
-    ];
-    const patientAccessor = [
-        "patientFullName",
-        "dateOfBirth",
-        "gender",
-        "address",
-        "phoneNumber",
-        "emergencyContact",
-        "weight" ,
-        "height"
-    ];
-    const medicalInfoAccessor = [
-        "hospitalName",
-        "doctorName",
-        "registrationDate",
-        "illness",
-        "medicalHistory"
-    ]
+    const patient = {
+        "firstName":"Patient first name",
+        "dateOfBirth":"Date of birth",
+        "sex":"Sex",
+        "address": "Address",
+        "phoneNumber":"Phone number",
+        "emergencyContact": "Emergency contact",
+        "weight" :"Weight",
+        "height":"Height"
+    };
+    const medical = {
+        "hospitalName":"Hospital name",
+        "doctorName":"Doctor's name",
+        "registrationDate":"Registration Date",
+        "illness":"Illness",
+        "medicalHistory":"Medical history"
+    };
 
  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files ? event.target.files[0] : null
@@ -65,27 +48,27 @@ export default function Digitalize(){
       console.log("File selected:", file)
       const responce:geminiResponceType = await ExtractText(file)
       console.log(responce)
-      if(responce.personalInformation.patientFullName){
-        setFullName(responce.personalInformation.patientFullName)
+      if(responce.personalInformation.fistName){
+        setFullName(responce.personalInformation.fistName)
       }
       setData(responce)
+      openCreateModal()
     } else {
-        openCreateModal()
       console.log("No file selected")
     }
  }
 
     return (
         <div className="flex justify-center items-center h-full">
-          <div className="grid max-w-sm items-center justify-center gap-2 bg-white p-4 rounded-lg shadow-md">
-             {
+          <div className="flex flex-col ">
+              {
              data ? (
                 Object.keys(data.personalInformation).map((key, index) => {
                   const value = data.personalInformation[key];
 
                   return (
                     <div key={index}>
-                      <strong>{key}</strong> ---- 
+                      <strong>{patient[key]}</strong> ---- 
                       {value && typeof value === 'object' ? (
                         <ul>
                           {Object.entries(value).map(([subKey, subValue], subIndex) => (
@@ -101,13 +84,41 @@ export default function Digitalize(){
                   );
                 })
                 ) : null
-              }
+              } 
+          </div>
+          <div className="flex flex-col ">
+              {
+             data ? (
+                Object.keys(data.medicalInformation).map((key, index) => {
+                  const value = data.medicalInformation[key];
+
+                  return (
+                    <div key={index}>
+                      <strong>{medical[key]}</strong> ---- 
+                      {value && typeof value === 'object' ? (
+                        <ul>
+                          {Object.entries(value).map(([subKey, subValue], subIndex) => (
+                            <li key={subIndex}>
+                              <strong>{subKey}</strong>: {subValue ?? 'N/A'}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        value ?? 'N/A'
+                      )}
+                    </div>
+                  );
+                })
+                ) : null
+              } 
+          </div>
+          <div className="grid max-w-sm items-center justify-center gap-2 bg-white p-4 rounded-lg shadow-md">
             <Label htmlFor="picture">Digitalize Document</Label>
             <Input id="picture" type="file" onChange={handleFileChange} />
             <Button onClick={handleSubmitFile}>submit </Button>
             { isCreateModalOpen&&(
-            <CreateModal isOpen={isCreateModalOpen} onClose={closeCreateModal}  title="Erorr" >
-                hello world
+            <CreateModal isOpen={isCreateModalOpen} onClose={closeCreateModal}  title="Extracted form" >
+              <Register initalData={data}></Register>
             </CreateModal>
             )}
           </div>

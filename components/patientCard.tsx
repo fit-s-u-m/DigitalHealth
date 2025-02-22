@@ -1,42 +1,56 @@
 "use client";
 
 import React from "react";
+import { ColumnDef } from "@tanstack/react-table";
+import { DataTable } from "@/components/ui/datatable";
+import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react"; // Importing Lucide Icon
 
-interface PatientCardProps {
-  name: string;
+interface Patient {
   id: string;
-  profilePicture: string;
+  name: string;
 }
 
-const PatientCard: React.FC<PatientCardProps> = ({ name, id, profilePicture }) => {
-  function handleEditPatient() {
-    alert("Edit clicked");
-  }
+const patients: Patient[] = [
+  { id: "P-001", name: "John Doe" },
+  { id: "P-002", name: "Jane Smith" },
+  { id: "P-003", name: "Michael Johnson" },
+  { id: "P-004", name: "Sarah Williams" },
+];
 
-  return (
-    <div className="relative bg-white shadow-lg rounded-xl p-6 max-w-s my-3 border-gray-200 transition-all duration-300 hover:shadow-xl flex flex-col items-center">
-      {/* Edit Button */}
-      <button
-        className="absolute top-3 right-3 text-green-500 hover:text-green-600 transition-all duration-200"
-        onClick={handleEditPatient}
+// Table Columns
+const columns: ColumnDef<Patient>[] = [
+  {
+    accessorKey: "id",
+    header: "Patient ID",
+    cell: ({ row }) => <span className="text-gray-700 font-medium">{row.original.id}</span>,
+  },
+  {
+    accessorKey: "name",
+    header: "Name",
+    cell: ({ row }) => <span className="text-gray-900">{row.original.name}</span>,
+  },
+  {
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }) => (
+      <Button
+        variant="ghost"
+        size="sm"
+        className="text-green-500 hover:text-green-600 transition-all"
+        onClick={() => alert(`Editing ${row.original.name}`)}
       >
-        <Pencil className="w-5 h-5" />
-      </button>
+        <Pencil className="w-4 h-4" /> Edit
+      </Button>
+    ),
+  },
+];
 
-      {/* Profile Section */}
-      <img
-        src={profilePicture}
-        alt={`${name}'s profile`}
-        className="w-24 h-24 rounded-full border-4 border-gray-300 shadow-md"
-      />
-
-      <div className="mt-4 text-center">
-        <h2 className="text-lg font-semibold text-gray-900">{name}</h2>
-        <p className="text-gray-600 text-sm">{`ID: ${id}`}</p>
-      </div>
+export default function PatientTable() {
+  return (
+    <div className="p-6 bg-white shadow-lg rounded-xl">
+      <h2 className="text-2xl font-semibold text-gray-800 mb-4">Patients</h2>
+      <DataTable columns={columns} data={patients} />
     </div>
   );
-};
-
-export default PatientCard;
+}

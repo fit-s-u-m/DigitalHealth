@@ -49,7 +49,9 @@ You are assigned to convert patient information from images into a structured di
 
 #### Personal Information (Predefined Keys)
 personalInformation {
-  "patientFullName": "",
+  "firstName": "",
+  "middleName": "",
+  "lastName": "",
   "dateOfBirth": "",
   "age":"",
   "phoneNumber":"",
@@ -74,6 +76,7 @@ medicalInformation {
   "medicalHistory": ""
 }
 Ensure that the extracted information maintains structured consistency while allowing flexibility for additional data.
+if property value is null or doesn't exist return empty string
     `,
   });
 

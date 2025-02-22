@@ -8,15 +8,18 @@ export type PatientType = {
   emergency_contact: string
   national_id: string
   record_id: string
+  sex:string
 }
 export type PatientResponceType = {
   patients: PatientType[]
 }
-export type geminiResponceType = {
-  personalInformation:{
-    patientFullName: string
-    dateOfBirth: string
+export type PatientGeminiType = {
+    fistName: string
+    middleName: string
+    lastName: string
     gender: string
+    age:string
+    sex:string
     address: {
       city:string
       woredaSubcity: string
@@ -27,12 +30,15 @@ export type geminiResponceType = {
     emergencyContact: string,
     weight: string,
     height: string,
-  }
-  medicalInformation: {
+}
+export type MedicalHistory = {
     hospitalName: string
     doctorName: string,
     registrationDate: string,
     illness: string,
     medicalHistory: string
-  },
+}
+export type geminiResponceType = {
+  medicalInformation:MedicalHistory ,
+  personalInformation:PatientGeminiType
 }
