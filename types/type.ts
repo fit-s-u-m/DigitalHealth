@@ -27,9 +27,7 @@ export type PatientGeminiType = {
       houseNumber: string
     }
     phoneNumber:string
-    emergencyContact: string,
-    weight: string,
-    height: string,
+    emergencyContact: string
 }
 export type MedicalHistory = {
     hospitalName: string

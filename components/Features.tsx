@@ -13,7 +13,7 @@ export default function Features() {
 			title: "AI-Powered Patient Record Digitalization",
 			description:
 				"Transform handwritten and printed patient records into structured digital formats automatically.",
-			link: "/digitalization", // Route for Digitalization Feature
+			link: "/digitalize", // Route for Digitalization Feature
 			buttonlabel:"Digitalize"
 		},
 		{

@@ -11,8 +11,6 @@ export const ADD_PATIENT = gql`
     $address: String,
     $sex: String,
     $phone_number: String,
-    $weight: Int,
-    $height: int
   ) {
     insert_patients_one(object: {
       first_name: $first_name, 
@@ -24,8 +22,6 @@ export const ADD_PATIENT = gql`
       address: $address,
       sex: $sex,
       phone_number: $phone_number,
-      weight: $weight,
-      height: $height
     }) {
       national_id
       first_name

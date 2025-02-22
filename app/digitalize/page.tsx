@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import CreateModal from "@/components/modal"
 import useModal from "../hook/useModal"
 import {Register} from "@/components/registor"
-
+import BackButton from "@/components/backButton";
 
 export default function Digitalize(){
  const [data, setData] = useState<geminiResponceType>()
@@ -28,8 +28,6 @@ export default function Digitalize(){
         "address": "Address",
         "phoneNumber":"Phone number",
         "emergencyContact": "Emergency contact",
-        "weight" :"Weight",
-        "height":"Height"
     };
     const medical = {
         "hospitalName":"Hospital name",
@@ -87,6 +85,9 @@ export default function Digitalize(){
               } 
           </div>
           <div className="flex flex-col ">
+          <div className="absolute top-6 left-6">
+          <BackButton destinationRoute="/" />
+    </div>
               {
              data ? (
                 Object.keys(data.medicalInformation).map((key, index) => {
@@ -115,13 +116,14 @@ export default function Digitalize(){
           <div className="grid max-w-sm items-center justify-center gap-2 bg-white p-4 rounded-lg shadow-md">
             <Label htmlFor="picture">Digitalize Document</Label>
             <Input id="picture" type="file" onChange={handleFileChange} />
-            <Button onClick={handleSubmitFile}>submit </Button>
+            <Button className="bg-[#2CAA83] hover:bg-green-800" onClick={handleSubmitFile}>submit </Button>
             { isCreateModalOpen&&(
             <CreateModal isOpen={isCreateModalOpen} onClose={closeCreateModal}  title="Extracted form" >
               <Register initalData={data}></Register>
             </CreateModal>
             )}
           </div>
+   
         </div>
 
     )

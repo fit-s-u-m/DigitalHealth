@@ -76,8 +76,6 @@ export function Register({initalData}:{initalData?:geminiResponceType}) {
         "sex":"sex",
         "address": "address",
         "emergencyContact": "emergency_contact",
-        "weight" :"weight",
-        "height":"height"
     };
 
   const onSubmit = async  (value: any) => {
