@@ -12,7 +12,7 @@ export default function NavBar() {
 			<div className="flex items-center gap-3">
 				<Image src="/assets/logo.png" alt="Logo" width={40} height={40} />
 				<span className="text-2xl font-bold tracking-wide text-[#2CAA83]">
-					Digital Health
+					Digital Flow 
 				</span>
 			</div>
 

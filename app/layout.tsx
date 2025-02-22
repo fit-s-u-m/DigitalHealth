@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Digital health",
+title: "Digital Flow",
   description: "digital health hackathon",
 };
 
