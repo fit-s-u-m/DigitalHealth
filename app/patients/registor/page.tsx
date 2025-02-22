@@ -1,264 +1,247 @@
-"use client"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+"use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { motion } from "framer-motion";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { useState } from "react"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
-import ExtractText from "@/lib/extractText"
-import { geminiResponceType } from "@/types/type"
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import BackButton from "@/components/backButton";
+
 const formSchema = z.object({
-  firstName: z.string().min(2, {
-    message: "firstName must be at least 2 characters.",
-  }),
-  middleName: z.string().min(2, {
-    message: "middleName must be at least 2 characters.",
-  }),
-  lastName: z.string().min(2, {
-    message: "lastName must be at least 2 characters.",
-  }),
-  age: z.number().gt(0, {
-    message: "age must be greater than zero"
-  }),
-  nationalId: z.string().min(5, {
-    message: "National ID must be at least 5 characters.",
-  }),
-  recordId: z.string().min(5, {
-    message: "Record ID must be at least 5 characters.",
-  }),
-  sex: z.string().nonempty({
-    message: "sex of the patient can't be null ",
-  }),
-  birthDate:z.date(),
-  phoneNumber: z.string()
-    .min(10, {
-      message: "Phone number must be at least 10 digits long",
-    })
-    .max(15, {
-      message: "Phone number cannot exceed 15 digits",
-    })
-    .regex(/^[0-9]+$/, {
-      message: "Phone number can only contain digits",
-    }),
+	firstName: z
+		.string()
+		.min(2, { message: "First name must be at least 2 characters." }),
+	middleName: z
+		.string()
+		.min(2, { message: "Middle name must be at least 2 characters." }),
+	lastName: z
+		.string()
+		.min(2, { message: "Last name must be at least 2 characters." }),
+	age: z
+		.number({ invalid_type_error: "Age must be a number" })
+		.gt(0, { message: "Age must be greater than zero" }),
+	nationalId: z
+		.string()
+		.min(5, { message: "National ID must be at least 5 characters." }),
+	recordId: z
+		.string()
+		.min(5, { message: "Record ID must be at least 5 characters." }),
+	sex: z.string().nonempty({ message: "Sex of the patient can't be empty." }),
+	phoneNumber: z
+		.string()
+		.min(10, { message: "Phone number must be at least 10 digits long" })
+		.max(15, { message: "Phone number cannot exceed 15 digits" })
+		.regex(/^[0-9]+$/, { message: "Phone number can only contain digits" }),
+});
 
-})
+export default function Register() {
+	const form = useForm({
+		resolver: zodResolver(formSchema),
+		defaultValues: {
+			firstName: "",
+			middleName: "",
+			lastName: "",
+			age: 1,
+			nationalId: "",
+			recordId: "",
+			sex: "",
+			phoneNumber: "",
+		},
+	});
 
-export default function Registor() {
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      firstName: "",
-      middleName: "",
-      lastName: "",
-      age: 1,
-      nationalId: "",
-      recordId: "",
-      sex: "",
-      phoneNumber: ""
-    }
-  })
-  const onSubmit = (value: any) => {
-    setFullName(`${value?.firstName}  ${value?.middleName}  ${value?.lastName}`)
-    console.log(value)
-  }
-  const [file, setFile] = useState<File | null>(null)
-  const [data, setData] = useState<geminiResponceType>()
+	const onSubmit = (value: any) => {
+		console.log("Form Submitted Successfully:", value);
+	};
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files ? event.target.files[0] : null
-    setFile(selectedFile)
-  }
-  const handleSubmitFile = async () => {
-    if (file) {
-      console.log("File selected:", file)
-      const responce:geminiResponceType = await ExtractText(file)
-      console.log(responce)
-      if(responce.personalInformation.patientFullName){
-        setFullName(responce.personalInformation.patientFullName)
-      }
-      setData(responce)
-    } else {
-      console.log("No file selected")
-    }
-  }
+	return (
+		<motion.div
+			initial={{ opacity: 0, y: 30 }}
+			animate={{ opacity: 1, y: 0 }}
+			transition={{ duration: 1 }}
+			className="relative h-screen flex items-center justify-center bg-gray-100"
+		>
+			{/* Background Patterns */}
+			<motion.div
+				initial={{ x: -100, opacity: 0 }}
+				animate={{ x: 0, opacity: 0.2 }}
+				transition={{ duration: 1 }}
+				className="absolute -left-20 top-0 w-[250px] md:w-[400px] rotate-[-20deg]"
+			>
+				<img src="/assets/pattern.svg" alt="Pattern" className="w-full" />
+			</motion.div>
 
+			<motion.div
+				initial={{ x: 100, opacity: 0 }}
+				animate={{ x: 0, opacity: 0.2 }}
+				transition={{ duration: 1 }}
+				className="absolute -right-20 bottom-0 w-[250px] md:w-[400px] rotate-[20deg]"
+			>
+				<img src="/assets/pattern.svg" alt="Pattern" className="w-full" />
+			</motion.div>
 
-  const [fullName, setFullName] = useState<string>("")
-  return (
-    <div className="h-screen flex items-center bg-gray-100">
-      <div>
-        <div className="absolute top-4 left-4 bg-white px-4 py-2 shadow-md rounded-md">
-          <h2 className="text-lg font-semibold">Patient name:</h2>
-          <p className="text-gray-700">{fullName || "No name provided"}</p>
-        </div>
-
-        <div className="flex justify-center items-center h-full">
-          <div className="grid max-w-sm items-center justify-center gap-2 bg-white p-4 rounded-lg shadow-md">
-             {
-             data ? (
-                Object.keys(data.personalInformation).map((key, index) => {
-                  const value = data.personalInformation[key];
-
-                  return (
-                    <div key={index}>
-                      <strong>{key}</strong> ---- 
-                      {value && typeof value === 'object' ? (
-                        <ul>
-                          {Object.entries(value).map(([subKey, subValue], subIndex) => (
-                            <li key={subIndex}>
-                              <strong>{subKey}</strong>: {subValue ?? 'N/A'}
-                            </li>
-                          ))}
-                        </ul>
-                      ) : (
-                        value ?? 'N/A'
-                      )}
-                    </div>
-                  );
-                })
-                ) : null
-              }
-            <Label htmlFor="picture">Picture</Label>
-            <Input id="picture" type="file" onChange={handleFileChange} />
-            <Button onClick={handleSubmitFile}>submit </Button>
-          </div>
-        </div>
-      </div>
-      <div className="w-1/2 p-8 bg-white shadow-lg rounded-lg ml-auto">
-        <h2 className="text-2xl font-bold mb-2">Register</h2>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="firstName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>First Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="first name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="middleName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Middle Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="middle name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="lastName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Last Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="last name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="nationalId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>National id</FormLabel>
-                  <FormControl>
-                    <Input placeholder="national id" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="sex"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Phone Number</FormLabel>
-                  <FormControl>
-                    <Select>
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Select a Sex" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectItem value="F">Female</SelectItem>
-                          <SelectItem value="M">Male</SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="age"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Age</FormLabel>
-                  <FormControl>
-                    <Input className="w-[180px]" type="number" placeholder="age" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="recordId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Record id</FormLabel>
-                  <FormControl>
-                    <Input placeholder="record id" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="phoneNumber"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Phone Number</FormLabel>
-                  <FormControl>
-                    <Input type="date" placeholder="phone number" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit">Submit</Button>
-          </form>
-        </Form>
-      </div>
-    </div>
-  )
+			{/* Form Container */}
+			<div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg">
+				<h2 className="text-2xl font-bold mb-4 text-center">
+					Register Patient
+				</h2>
+				<Form {...form}>
+					<form
+						onSubmit={form.handleSubmit(onSubmit)}
+						className="space-y-4"
+					>
+						<FormField
+							control={form.control}
+							name="firstName"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>First Name</FormLabel>
+									<FormControl>
+										<Input placeholder="First name" {...field} />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="middleName"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Middle Name</FormLabel>
+									<FormControl>
+										<Input placeholder="Middle name" {...field} />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="lastName"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Last Name</FormLabel>
+									<FormControl>
+										<Input placeholder="Last name" {...field} />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="nationalId"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>National ID</FormLabel>
+									<FormControl>
+										<Input placeholder="National ID" {...field} />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="sex"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Sex</FormLabel>
+									<FormControl>
+										<Select
+											onValueChange={field.onChange}
+											defaultValue={field.value}
+										>
+											<SelectTrigger className="w-full">
+												<SelectValue placeholder="Select a Sex" />
+											</SelectTrigger>
+											<SelectContent>
+												<SelectGroup>
+													<SelectItem value="F">Female</SelectItem>
+													<SelectItem value="M">Male</SelectItem>
+												</SelectGroup>
+											</SelectContent>
+										</Select>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="age"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Age</FormLabel>
+									<FormControl>
+										<Input
+											type="number"
+											placeholder="Age"
+											value={field.value}
+											onChange={(e) =>
+												field.onChange(Number(e.target.value))
+											}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="recordId"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Record ID</FormLabel>
+									<FormControl>
+										<Input placeholder="Record ID" {...field} />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="phoneNumber"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Phone Number</FormLabel>
+									<FormControl>
+										<Input placeholder="Phone Number" {...field} />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<Button
+							type="submit"
+							className="w-full bg-[#2CAA83] hover:bg-green-700 text-white py-2"
+						>
+							Submit
+						</Button>
+					</form>
+				</Form>
+				<div className="absolute top-6 left-6">
+					<BackButton destinationRoute="/" />
+				</div>
+			</div>
+		</motion.div>
+	);
 }
-
