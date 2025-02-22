@@ -239,7 +239,7 @@ export default function Register() {
 					</form>
 				</Form>
 				<div className="absolute top-6 left-6">
-					<BackButton destinationRoute="/" />
+					<BackButton destinationRoute="/patients" />
 				</div>
 			</div>
 		</motion.div>
