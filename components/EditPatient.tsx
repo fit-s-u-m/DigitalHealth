@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react";
-
+import BackButton from "@/components/backButton";
 const EditPatient = () => {
   const [selectedSection, setSelectedSection] = useState("personal");
 
@@ -47,7 +47,7 @@ const EditPatient = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-gray-50 mt-20">
       {/* Sidebar */}
       <div className="w-1/4 bg-[#228C6A] text-white p-6 flex flex-col gap-6">
         {Object.keys(sections).map((key) => (
@@ -99,6 +99,9 @@ const EditPatient = () => {
           </button>
         </form>
       </div>
+      <div className="absolute top-6 left-6">
+					<BackButton destinationRoute="/patients" />
+				</div>
     </div>
   );
 };

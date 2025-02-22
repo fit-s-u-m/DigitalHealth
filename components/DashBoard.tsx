@@ -4,7 +4,7 @@ import { useState } from "react"; // Importing Lucide Icons
 import { DateRangePicker } from "./Datepicker";
 import { Chart } from "./ChartData";
 import { PieChartChart } from "./PieChart";
-
+import BackButton from "@/components/backButton";
 function DashBoard() {
   function handleAddPatient() {
     alert("Add Patient Clicked");
@@ -18,7 +18,7 @@ function DashBoard() {
     <div className="bg-gradient-to-r from-blue-50 to-white shadow-xl rounded-2xl p-8 ">
       <div className="flex justify-between items-center mb-6">
         {/* Title */}
-        <h1 className="text-3xl font-bold text-gray-800 tracking-wide">Analytics</h1>
+        <h1 className="text-3xl font-bold text-gray-800 tracking-wide ml-20">Analytics</h1>
 
         {/* Search Bar and Date Picker */}
         <div className="flex items-center gap-4">
@@ -76,7 +76,11 @@ function DashBoard() {
           <PieChartChart />
         </div>
       </div>
+      <div className="absolute top-6 left-6">
+					<BackButton destinationRoute="/" />
+				</div>
     </div>
+    
   );
 }
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-
+import BackButton from "@/components/backButton";
 interface ProfilePageProps {
   name: string;
   age: string;
@@ -30,10 +30,10 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
   const [activeTab, setActiveTab] = useState<"medical" | "clinical" | "affiliations">("medical");
 
   return (
-    <div className="m-4 flex items-center justify-center bg-white">
+    <div className="m-4 flex items-center justify-center bg-white mt-20">
       <div className="max-w w-full bg-[#2CAA83] shadow-xl rounded-xl overflow-hidden border border-gray-300">
         {/* Profile Header */}
-        <div className="relative flex bg-[#228C6A] p-6 text-center text-white">
+        <div className="relative flex bg-[#228C6A] p-6 text-center text-white ">
           <img
             src={profilePicture}
             alt={`${name}'s profile`}
@@ -87,6 +87,9 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
           )}
         </div>
       </div>
+      <div className="absolute top-6 left-6">
+					<BackButton destinationRoute="/patients"/>
+				</div>
     </div>
   );
 };
