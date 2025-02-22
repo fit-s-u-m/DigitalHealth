@@ -74,7 +74,7 @@ export default function Hero() {
 						height={24}
 					/>
 					<p className="text-sm font-semibold text-gray-800">
-						1520+ Healthcare Facilities Using AI
+						patient Information all in one in one place
 					</p>
 				</motion.div>
 
@@ -91,7 +91,7 @@ export default function Hero() {
 						height={24}
 					/>
 					<p className="text-sm font-semibold text-gray-800">
-						Expert Medical Teams 
+						Digitize Using AI
 					</p>
 				</motion.div>
 			</motion.div>
