@@ -4,8 +4,13 @@
   "rsc": true,
   "tsx": true,
   "tailwind": {
+<<<<<<< HEAD
     "config": "tailwind.config.ts",
     "css": "app/globals.css",
+=======
+    "config": "tailwind.config.js",
+    "css": "src/app/globals.css",
+>>>>>>> info
     "baseColor": "neutral",
     "cssVariables": true,
     "prefix": ""
@@ -18,4 +23,8 @@
     "hooks": "@/hooks"
   },
   "iconLibrary": "lucide"
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> info
