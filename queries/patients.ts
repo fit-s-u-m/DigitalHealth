@@ -1,9 +1,10 @@
 import { gql } from "@apollo/client";
 
 
-export const patients = gql`
+export const patientsQuery = gql`
   query {
     patients{
+      id,
       first_name,
       middle_name,
       last_name,
@@ -12,6 +13,8 @@ export const patients = gql`
       emergency_contact,
       record_id,
       address,
+      sex,
+      date_of_birth,
     }
   }
 `;

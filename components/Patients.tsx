@@ -1,11 +1,11 @@
 'use client'
 
-import { patients } from "@/queries/patients";
+import { patientsQuery } from "@/queries/patients";
 import { PatientResponceType, PatientType } from "@/types/type";
 import { useSuspenseQuery } from "@apollo/client";
 
 export default function Patients() {
-	const { data } = useSuspenseQuery<PatientResponceType>(patients);
+	const { data } = useSuspenseQuery<PatientResponceType>(patientsQuery);
 	console.log(data)
 	return (
 		<div className="flex min-h-screen flex-col items-center justify-between p-24">

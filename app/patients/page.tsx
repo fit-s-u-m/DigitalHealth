@@ -7,25 +7,29 @@ import { Button } from "@/components/ui/button";
 import { Eye, Pencil } from "lucide-react"; // Icons
 import PatientHeader from "@/components/patientheader";
 import { motion } from "framer-motion";
-import BackButton from "@/components/backButton";
-// Sample Static Data (Replace with Hasura Query later)
-const patients = [
-	{ id: "P001", name: "John Doe", age: 45, contact: "123-456-7890" },
-	{ id: "P002", name: "Jane Smith", age: 38, contact: "987-654-3210" },
-	{ id: "P003", name: "Michael Johnson", age: 52, contact: "555-333-2222" },
-	{ id: "P004", name: "Emily Davis", age: 29, contact: "777-888-9999" },
-];
+import { useSuspenseQuery } from "@apollo/client";
+import { PatientResponceType,PatientType } from "@/types/type";
+import {patientsQuery} from "@/queries/patients"
 
-// Define Table Columns
-const columns: ColumnDef<(typeof patients)[number]>[] = [
+const columns: ColumnDef<(typeof PatientType )[number]>[] = [
 	{
 		accessorKey: "id",
 		header: "Patient ID",
 		cell: (info) => <span className="font-medium">{info.getValue()}</span>,
 	},
 	{
-		accessorKey: "name",
-		header: "Name",
+		accessorKey: "first_name",
+		header: "First Name",
+		cell: (info) => info.getValue(),
+	},
+	{
+		accessorKey: "middle_name",
+		header: "Middle Name",
+		cell: (info) => info.getValue(),
+	},
+	{
+		accessorKey: "last_name",
+		header: "Last Name",
 		cell: (info) => info.getValue(),
 	},
 	{
@@ -34,8 +38,8 @@ const columns: ColumnDef<(typeof patients)[number]>[] = [
 		cell: (info) => info.getValue(),
 	},
 	{
-		accessorKey: "contact",
-		header: "Contact",
+		accessorKey: "national_id",
+		header: "National Id",
 		cell: (info) => info.getValue(),
 	},
 	{
@@ -49,7 +53,7 @@ const columns: ColumnDef<(typeof patients)[number]>[] = [
 					<Button
 						variant="ghost"
 						size="icon"
-						onClick={() => router.push("/profile")}
+						onClick={() =>{localStorage.setItem("row",JSON.stringify(row));router.push("/profile")}}
 					>
 						<Eye className="w-5 h-5 text-blue-600 hover:text-blue-800" />
 					</Button>
@@ -58,7 +62,7 @@ const columns: ColumnDef<(typeof patients)[number]>[] = [
 					<Button
 						variant="ghost"
 						size="icon"
-						onClick={() => router.push(`/edit`)}
+						onClick={() =>{localStorage.setItem("row",JSON.stringify(row));router.push("/edit")}}
 					>
 						<Pencil className="w-5 h-5 text-green-600 hover:text-green-800" />
 					</Button>
@@ -70,7 +74,7 @@ const columns: ColumnDef<(typeof patients)[number]>[] = [
 
 export default function Patients() {
 	const router = useRouter();
-
+    const { data } = useSuspenseQuery<PatientResponceType>(patientsQuery );
 	return (
 		<div className="relative min-h-screen container mx-auto pt-4">
 			<motion.div
@@ -96,8 +100,8 @@ export default function Patients() {
 			<div className="mt-10">
 				<DataTable
 					columns={columns}
-					data={patients}
-					onRowClick={(row) => router.push(`/patients/${row.original.id}`)}
+					data={data.patients}
+					onRowClick={(row) =>{router.push(`/patients/${row.original.id}`)}} 
 				/>
 			</div>
 		</div>

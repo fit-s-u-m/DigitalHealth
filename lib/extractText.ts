@@ -63,8 +63,6 @@ personalInformation {
     "houseNumber": ""
    },
   "emergencyContact": "",
-  "weight": "",
-  "height": ""
 }
 
 #### Medical Information (Predefined Keys)

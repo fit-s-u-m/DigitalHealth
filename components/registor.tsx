@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/select";
 import {  geminiResponceType } from "@/types/type";
 import { useMutation } from "@apollo/client";
+import { useState } from "react";
 
 const formSchema = z.object({
   firstName: z
@@ -52,6 +53,7 @@ const formSchema = z.object({
 
 export function Register({initalData}:{initalData?:geminiResponceType}) {
   const initData = initalData?.personalInformation
+  const [isLoading,setLoading] = useState(false)
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -81,15 +83,11 @@ export function Register({initalData}:{initalData?:geminiResponceType}) {
   const onSubmit = async  (value: any) => {
   
     try {
-        const toDatabaseValue = Object.keys(patient).reduce((acc, key) => {
-            if (value[key] !== undefined) {
-                acc[patient[key]] = value[key]; // Map patient[key] to the value[key]
-              }
-              else {
-                acc[patient[key]] =''
-              }
-            return acc;
-          }, {} as Record<string, any>); // Ensure it's an object
+        setLoading(true)
+          const toDatabaseValue = Object.fromEntries(
+            Object.entries(value).map(([key, val]) => [patient[key] || key, val ?? ""])
+          );
+
         // const toDatabaseValue= Object.keys(value).map(value=>patient[value])
         console.log(toDatabaseValue)
         const { data } = await addPatient({
@@ -97,7 +95,8 @@ export function Register({initalData}:{initalData?:geminiResponceType}) {
             ...toDatabaseValue, // Spreading form values
         },
         });
-        console.log("Form Submitted Successfully:", data);
+        setLoading(false)
+        alert("Form Submitted Successfully:");
     } catch (err) {
         console.error("Mutation Error:", err);
     }
@@ -220,6 +219,7 @@ export function Register({initalData}:{initalData?:geminiResponceType}) {
                 </FormItem>
               )}
             />
+            {isLoading?<>loading</>:null}
             <Button
               type="submit"
               className="w-full bg-[#2CAA83] hover:bg-green-700 text-white py-2"
